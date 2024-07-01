@@ -19,6 +19,7 @@ class PyPan115:
 
     def __init__(self, cookie):
         self.cookie = cookie
+        self.last_download_time = 0
         self.req = RequestUtils(cookies=self.cookie, session=requests.Session())
 
     # 登录
@@ -108,15 +109,19 @@ class PyPan115:
                         content = str(result).replace("No connection adapters were found for '", "").replace("'", "")
             else:
                 content = Torrent.binary_data_to_magnet_link(content)
+            now_time = time.time()
+            if now_time-self.last_download_time<10:
+                time.sleep(10)
             log.info(f"115 提交下载: {content}")
             url = "https://115.com/web/lixian/?ct=lixian&ac=add_task_urls"
             postdata = "url[0]={}&savepath=&wp_path_id={}".format(parse.quote(content), dirid)
             p = self.req.post_res(url=url, params=postdata.encode('utf-8'))
+            self.last_download_time = now_time
             if p:
                 rootobject = p.json()
                 if not rootobject.get("state"):
                     log.info(f"115 错误: {rootobject}")
-                    self.err = rootobject.get("error")
+                    self.err = rootobject.get("error_msg")
                     return False, ''
                 return True, rootobject.get('result', [{}])[0].get('info_hash', '未知')
         except Exception as result:
