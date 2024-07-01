@@ -7,7 +7,7 @@ from urllib import parse
 import requests
 
 import log
-from app.utils import RequestUtils, ExceptionUtils
+from app.utils import RequestUtils, ExceptionUtils, Torrent
 
 
 class PyPan115:
@@ -97,14 +97,17 @@ class PyPan115:
                 return False, ''
 
             # 转换为磁力
-            if re.match("^https*://", content):
-                try:
-                    p = self.req.get_res(url=content)
-                    if p and p.headers.get("Location"):
-                        content = p.headers.get("Location")
-                except Exception as result:
-                    ExceptionUtils.exception_traceback(result)
-                    content = str(result).replace("No connection adapters were found for '", "").replace("'", "")
+            if isinstance(content, str):
+                if re.match("^https*://", content):
+                    try:
+                        p = self.req.get_res(url=content)
+                        if p and p.headers.get("Location"):
+                            content = p.headers.get("Location")
+                    except Exception as result:
+                        ExceptionUtils.exception_traceback(result)
+                        content = str(result).replace("No connection adapters were found for '", "").replace("'", "")
+            else:
+                content = Torrent.binary_data_to_magnet_link(content)
 
             url = "https://115.com/web/lixian/?ct=lixian&ac=add_task_urls"
             postdata = "url[0]={}&savepath=&wp_path_id={}".format(parse.quote(content), dirid)

@@ -88,16 +88,11 @@ class Pan115(_IDownloadClient):
     def add_torrent(self, content, download_dir=None, **kwargs):
         if not self._client:
             return False
-        if isinstance(content, str):
-            ret, self.lasthash = self._client.addtask(tdir=download_dir, content=content)
-            if not ret:
-                log.error(f"【{self.client_type}】添加下载任务失败：{self._client.err}")
-                return None
-            return self.lasthash
-        else:
-            log.info(f"{content}")
-            log.info(f"【{self.client_type}】暂时不支持非链接下载")
+        ret, self.lasthash = self._client.addtask(tdir=download_dir, content=content)
+        if not ret:
+            log.error(f"【{self.client_type}】添加下载任务失败：{self._client.err}")
             return None
+        return self.lasthash
 
     def delete_torrents(self, delete_file, ids):
         if not self._client:
