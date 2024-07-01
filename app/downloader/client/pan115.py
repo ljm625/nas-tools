@@ -95,6 +95,7 @@ class Pan115(_IDownloadClient):
                 return None
             return self.lasthash
         else:
+            log.info(f"{content}")
             log.info(f"【{self.client_type}】暂时不支持非链接下载")
             return None
 
