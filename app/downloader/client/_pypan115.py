@@ -96,7 +96,7 @@ class PyPan115:
             ret, dirid = self.getdirid(tdir)
             if not ret:
                 return False, ''
-
+            tmp_content = content
             # 转换为磁力
             if isinstance(content, str):
                 if re.match("^https*://", content):
@@ -108,13 +108,13 @@ class PyPan115:
                         ExceptionUtils.exception_traceback(result)
                         content = str(result).replace("No connection adapters were found for '", "").replace("'", "")
             else:
-                content = Torrent.binary_data_to_magnet_link(content)
+                tmp_content = Torrent.binary_data_to_magnet_link(content)
             now_time = time.time()
             if now_time-self.last_download_time<10:
                 time.sleep(10)
-            log.info(f"115 提交下载: {content}")
+            log.info(f"115 提交下载: {tmp_content}")
             url = "https://115.com/web/lixian/?ct=lixian&ac=add_task_urls"
-            postdata = "url[0]={}&savepath=&wp_path_id={}".format(parse.quote(content), dirid)
+            postdata = "url[0]={}&savepath=&wp_path_id={}".format(parse.quote(tmp_content), dirid)
             p = self.req.post_res(url=url, params=postdata.encode('utf-8'))
             self.last_download_time = now_time
             if p:
