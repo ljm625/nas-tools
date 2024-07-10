@@ -827,8 +827,10 @@ class Downloader:
                                 torrent_episodes, torrent_path = self.get_torrent_episodes(
                                     url=item.enclosure,
                                     page_url=item.page_url)
+                                log.info(f"种子 解析 {item.org_string} 集数 {torrent_episodes} 路径 {torrent_path}")
                                 if not torrent_episodes \
                                         or len(torrent_episodes) >= __get_season_episodes(need_tmdbid, item_season[0]):
+                                    log.info(f"种子 {item.org_string} 满足条件 {len(torrent_episodes)} > {__get_season_episodes(need_tmdbid, item_season[0])}, 其中item_season 0 : {item_season[0]} |开始下载")
                                     _, download_id = __download(download_item=item, torrent_file=torrent_path)
                                 else:
                                     log.info(
@@ -910,6 +912,7 @@ class Downloader:
                             torrent_episodes, torrent_path = self.get_torrent_episodes(
                                 url=item.enclosure,
                                 page_url=item.page_url)
+                            log.info(f"种子 解析2 {item.org_string} 集数 {torrent_episodes} 路径 {torrent_path}")
                             selected_episodes = set(torrent_episodes).intersection(set(need_episodes))
                             if not selected_episodes:
                                 log.info("【Downloader】%s 没有需要的集，跳过..." % item.org_string)
