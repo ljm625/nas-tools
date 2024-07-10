@@ -797,6 +797,8 @@ class Downloader:
                     item.enclosure = MTeamApi.get_torrent_url_by_detail_url(base_url, item.page_url, site_info)
             if item.type == MediaType.MOVIE:
                 __download(item)
+            else:
+                log.info(f"【Downloader】{item.org_string} 解析的季:{item.get_season_list()} 解析的集:{item.get_episode_list()}")
 
         # 电视剧整季匹配
         if need_tvs:

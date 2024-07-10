@@ -257,12 +257,22 @@ class Torrent:
             episode_len = str(len(x.get_episode_list())).rjust(4, '0')
             # 排序：标题、资源类型、站点、做种、季集
             if download_order == "seeder":
+                log.info("%s%s%s%s%s" % (str(x.title).ljust(100, ' '),
+                                       str(x.res_order).rjust(3, '0'),
+                                       str(x.seeders).rjust(10, '0'),
+                                       str(x.site_order).rjust(3, '0'),
+                                       "%s%s" % (season_len, episode_len)))
                 return "%s%s%s%s%s" % (str(x.title).ljust(100, ' '),
                                        str(x.res_order).rjust(3, '0'),
                                        str(x.seeders).rjust(10, '0'),
                                        str(x.site_order).rjust(3, '0'),
                                        "%s%s" % (season_len, episode_len))
             else:
+                log.info("%s%s%s%s%s" % (str(x.title).ljust(100, ' '),
+                                       str(x.res_order).rjust(3, '0'),
+                                       str(x.site_order).rjust(3, '0'),
+                                       str(x.seeders).rjust(10, '0'),
+                                       "%s%s" % (season_len, episode_len)))
                 return "%s%s%s%s%s" % (str(x.title).ljust(100, ' '),
                                        str(x.res_order).rjust(3, '0'),
                                        str(x.site_order).rjust(3, '0'),
