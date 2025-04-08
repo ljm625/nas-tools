@@ -256,33 +256,33 @@ class Torrent:
             season_len = str(len(x.get_season_list())).rjust(2, '0')
             episode_len = str(len(x.get_episode_list())).rjust(4, '0')
             url = x.enclosure
-            not_magnet=1
+            magnet=0
             if url.startswith("magnet:"):
-                not_magnet = 0
+                magnet = 1
             # 排序：标题、资源类型、站点、做种、季集
             if download_order == "seeder":
                 log.info("%s: %s %s %s %s %s %s" % (x.org_string,str(x.title).ljust(100, ' '),
                                        str(x.res_order).rjust(3, '0'),
                                        str(x.seeders).rjust(10, '0'),
-                                       str(not_magnet),
+                                       str(magnet),
                                        str(x.site_order).rjust(3, '0'),
                                        "%s%s" % (season_len, episode_len)))
                 return "%s%s%s%s%s%s" % (str(x.title).ljust(100, ' '),
                                        str(x.res_order).rjust(3, '0'),
                                        str(x.seeders).rjust(10, '0'),
-                                       str(not_magnet),
+                                       str(magnet),
                                        str(x.site_order).rjust(3, '0'),
                                        "%s%s" % (season_len, episode_len))
             else:
                 log.info("%s: %s %s %s %s %s %s" % (x.org_string,str(x.title).ljust(100, ' '),
                                        str(x.res_order).rjust(3, '0'),
-                                       str(not_magnet),
+                                       str(magnet),
                                        str(x.site_order).rjust(3, '0'),
                                        str(x.seeders).rjust(10, '0'),
                                        "%s%s" % (season_len, episode_len)))
                 return "%s%s%s%s%s%s" % (str(x.title).ljust(100, ' '),
                                        str(x.res_order).rjust(3, '0'),
-                                       str(not_magnet),
+                                       str(magnet),
                                        str(x.site_order).rjust(3, '0'),
                                        str(x.seeders).rjust(10, '0'),
                                        "%s%s" % (season_len, episode_len))
