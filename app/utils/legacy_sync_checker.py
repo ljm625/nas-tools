@@ -41,8 +41,8 @@ class LegacySync():
             if result:
                 log.info(json.dumps(result))
                 for item in result:
-                    event = FileCreatedEvent(item[1])
-                    action = item[2]
+                    event = FileCreatedEvent(item[0])
+                    action = item[1]
                     if action == "create":
                         self.handler.on_created(event)
             time.sleep(self.timeout)
