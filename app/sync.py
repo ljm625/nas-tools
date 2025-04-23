@@ -339,7 +339,7 @@ class Sync(object):
             try:
                 if sync_path_conf.get("compatibility"):
                     # 兼容模式，目录同步性能降低且NAS不能休眠，但可以兼容挂载的远程共享目录如SMB
-                    observer = LegacySync(timeout=10)
+                    observer = LegacySync(timeout=60)
                 else:
                     # 内部处理系统操作类型选择最优解
                     observer = Observer(timeout=10)
