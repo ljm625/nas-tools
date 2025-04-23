@@ -29,6 +29,7 @@ class FileMonitorHandler(FileSystemEventHandler):
         self.sync = sync
 
     def on_created(self, event):
+        log.info(f"Received create event: {event.src_path}")
         self.sync.file_change_handler(event, "创建", event.src_path)
 
     def on_moved(self, event):

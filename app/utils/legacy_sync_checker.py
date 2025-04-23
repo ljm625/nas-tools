@@ -3,12 +3,8 @@ from threading import Thread
 import time
 import log
 import json
+from watchdog.events import FileCreatedEvent
 
-class Event():
-    def __init__(self,path,action):
-        self.src_path = path
-        self.dst_path = path
-        self.action = action
 class LegacySync():
     def __init__(self,timeout=10):
         self.timeout= timeout
@@ -45,7 +41,7 @@ class LegacySync():
             if result:
                 log.info(json.dumps(result))
                 for item in result:
-                    event = Event(item[1],item[2])
+                    event = FileCreatedEvent(item[1])
                     action = item[2]
                     if action == "create":
                         self.handler.on_created(event)
